@@ -1,6 +1,5 @@
 package com.stephen.notes
 
-import android.R.color.transparent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,20 +34,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.stephen.notes.ui.theme.Black
 import com.stephen.notes.ui.theme.NotesTheme
-import com.stephen.notes.ui.theme.kaushanFontFamily
 import com.stephen.notes.ui.theme.poppinsFontFamily
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import com.stephen.notes.ui.theme.Blue
+import com.stephen.notes.ui.theme.Green
+import com.stephen.notes.ui.theme.Orange
+import com.stephen.notes.ui.theme.Pink
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         // Sample list of notes
+        val title = "Note Title"
+        val description = "While this approach works, it's not an ideal way to " +
+                "architect your app. A benefit of using a NavHost to handle your" +
+                " app's navigation is that navigation logic is kept separate from individual UI."
+
         val sampleNotes = listOf(
-            Note(1, "First Note", "This is your very first note."),
-            Note(2, "Second Note", "Keep going, you're doing great!"),
-            Note(3, "Third Note", "Jetpack Compose makes UI fun!")
+            Note(1, title, description, Blue),
+            Note(2, title, description, Pink),
+            Note(3, title, description, Green),
+            Note(4, title, description, Orange)
         )
 
         setContent {
@@ -80,7 +90,18 @@ fun TopBar() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
-                .background(Color.White),
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.White,
+                            Color.White.copy(alpha = 0.6f),
+                            Color.Transparent
+                        ),
+                        startY = 60f,
+                        endY = 100f
+                    )
+                ),
+//                .background(Color.White),
         ) {
             Row(
                 modifier = Modifier
@@ -133,8 +154,10 @@ fun NoteCard(note: Note) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(165.dp)
-            .background(Color(0xFFCCFFCC), shape = RoundedCornerShape(20.dp))
+            .aspectRatio(1f)
+//            .height(165.dp)
+            .shadow(elevation = 3.dp, shape = RoundedCornerShape(20.dp))
+            .background(note.color, shape = RoundedCornerShape(20.dp))
             .padding(18.dp)
     ) {
         Text(
@@ -156,8 +179,37 @@ fun NoteCard(note: Note) {
     }
 }
 
+//@Composable
+//fun NoteCard(note: Note) {
+//    Column(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .height(165.dp)
+//            .background(Color(note.color), shape = RoundedCornerShape(20.dp))
+//            .padding(18.dp)
+//    ) {
+//        Text(
+//            text = note.title,
+//            fontFamily = poppinsFontFamily,
+//            fontWeight = FontWeight.Medium,
+//            fontSize = 15.sp,
+//            color = Black
+//        )
+//        Spacer(modifier = Modifier.height(6.dp))
+//        Text(
+//            text = note.content,
+//            fontFamily = poppinsFontFamily,
+//            fontWeight = FontWeight.Normal,
+//            lineHeight = 18.sp,
+//            fontSize = 11.sp,
+//            color = Black
+//        )
+//    }
+//}
+
 data class Note(
     val id: Int,
     val title: String,
-    val content: String
+    val content: String,
+    val color: Color,
 )
