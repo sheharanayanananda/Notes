@@ -46,14 +46,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.zIndex
-import androidx.navigation.compose.rememberNavController
 import com.stephen.notes.ui.theme.Black
 import com.stephen.notes.ui.theme.poppinsFontFamily
 
 @Composable
-fun TopBar() {
-    //navigate through screens
-    val navController = rememberNavController()
+fun TopBar(
+    onNavigateToAddNote: () -> Unit,
+) {
 
     // Get a greeting based on the current time of day
     val greeting = getGreeting()
@@ -99,8 +98,8 @@ fun TopBar() {
                     fontSize = 28.sp,
                     color = Black
                 )
-                // IconButton to handle the add note action (currently a placeholder)
-                IconButton(onClick = { navController.navigate(AddNote) }) {
+                // IconButton to handle the add note action
+                IconButton(onClick = onNavigateToAddNote) {
                     Icon(
                         imageVector = Icons.Rounded.Add,
                         contentDescription = "Add Note",
@@ -221,7 +220,7 @@ fun DeleteConfirmationPopup(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(24.dp),
+                    .padding(20.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -242,7 +241,7 @@ fun DeleteConfirmationPopup(
                 )
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(15.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Button(
@@ -251,14 +250,19 @@ fun DeleteConfirmationPopup(
                             .border(
                                 width = 2.dp,
                                 color = Black,
-                                shape = RoundedCornerShape(size = 10.dp)
+                                shape = RoundedCornerShape(size = 15.dp)
                             )
-                            .height(45.dp)
+                            .height(48.dp)
                             .weight(1f),
-                        shape = RoundedCornerShape(size = 10.dp),
+                        shape = RoundedCornerShape(size = 15.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White)
                     ) {
-                        Text("Cancel", color = Black)
+                        Text(
+                            "Cancel",
+                            color = Black,
+                            fontFamily = poppinsFontFamily,
+                            fontSize = 15.sp,
+                        )
                     }
 
                     Button(
@@ -266,15 +270,20 @@ fun DeleteConfirmationPopup(
                         modifier = Modifier
                             .border(
                                 width = 2.dp,
-                                color = Color.Red,
-                                shape = RoundedCornerShape(size = 10.dp)
+                                color = Black,
+                                shape = RoundedCornerShape(size = 15.dp)
                             )
-                            .height(45.dp)
+                            .height(48.dp)
                             .weight(1f),
-                        shape = RoundedCornerShape(size = 10.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                        shape = RoundedCornerShape(size = 15.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Black)
                     ) {
-                        Text("Delete", color = Color.White)
+                        Text(
+                            "Delete",
+                            color = Color.White,
+                            fontFamily = poppinsFontFamily,
+                            fontSize = 15.sp,
+                        )
                     }
                 }
             }

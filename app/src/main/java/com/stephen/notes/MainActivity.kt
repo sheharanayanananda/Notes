@@ -6,23 +6,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.stephen.notes.ui.theme.BlushBloom
-import com.stephen.notes.ui.theme.CloudWhisper
-import com.stephen.notes.ui.theme.FrostyMist
-import com.stephen.notes.ui.theme.LavenderHaze
-import com.stephen.notes.ui.theme.MintMeadow
-import com.stephen.notes.ui.theme.NotesTheme
-import com.stephen.notes.ui.theme.PeachySunrise
-import com.stephen.notes.ui.theme.RoseCoral
-import com.stephen.notes.ui.theme.SkyBliss
-import com.stephen.notes.ui.theme.SunbeamGlow
-import com.stephen.notes.ui.theme.VanillaCream
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.stephen.notes.ui.theme.*
 import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
@@ -31,10 +23,6 @@ class MainActivity : ComponentActivity() {
 
         // Enables drawing content edge-to-edge (allows the content to appear behind system bars)
         enableEdgeToEdge()
-
-        // Set status bar to white and make the icons dark (suitable for a light theme)
-        window.statusBarColor = android.graphics.Color.WHITE
-        WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
 
         // Sample list of notes to populate the grid
         val title = "Note Title"
@@ -49,15 +37,24 @@ class MainActivity : ComponentActivity() {
             Note(4, title, description, MintMeadow),     // MintMeadow
             Note(5, title, description, SunbeamGlow),    // SunbeamGlow
             Note(6, title, description, LavenderHaze),   // LavenderHaze
-            Note(7, title, description, FrostyMist),     // FrostyMist
-            Note(8, title, description, RoseCoral),      // RoseCoral
-            Note(9, title, description, VanillaCream),   // VanillaCream
-            Note(10, title, description, CloudWhisper)   // CloudWhisper
+            Note(1, title, description, PeachySunrise),  // PeachySunrise
+            Note(2, title, description, SkyBliss),       // SkyBliss
+            Note(3, title, description, BlushBloom),     // BlushBloom
+            Note(4, title, description, MintMeadow),     // MintMeadow
+            Note(5, title, description, SunbeamGlow),    // SunbeamGlow
+            Note(6, title, description, LavenderHaze),   // LavenderHaze
         )
 
         setContent {
             NotesTheme {
                 val navController = rememberNavController()
+
+                SystemBarColor(
+                    statusBarColor = Color.Transparent,
+                    navigationBarColor = Color.Transparent,
+                    darkIcons = true // This makes status bar icons dark (for light themes)
+                )
+
                 NavHost(
                     navController = navController,
                     startDestination = Home
@@ -68,7 +65,9 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.fillMaxSize(),
                             color = Color.White
                         ) {
-                            TopBar()
+                            TopBar(
+                                onNavigateToAddNote = { navController.navigate(AddNote) }
+                            )
                             NotesGrid(notes = sampleNotes)
                         }
                     }
@@ -78,12 +77,36 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.fillMaxSize(),
                             color = Color.White
                         ) {
-                            Header()
+                            Header(
+                                onNavigateToHome = { navController.navigate(Home) }
+                            )
                         }
                     }
                 }
             }
         }
+    }
+}
+
+// Create a composable for system bar configuration
+@Composable
+fun SystemBarColor(
+    statusBarColor: Color = Color.Transparent,
+    navigationBarColor: Color = Color.Transparent,
+    darkIcons: Boolean = true
+) {
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = statusBarColor,
+            darkIcons = darkIcons
+        )
+
+        systemUiController.setNavigationBarColor(
+            color = navigationBarColor,
+            darkIcons = darkIcons
+        )
     }
 }
 
