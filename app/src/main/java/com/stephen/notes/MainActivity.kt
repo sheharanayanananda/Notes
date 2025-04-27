@@ -14,7 +14,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.stephen.notes.ui.theme.*
+import com.stephen.notes.ui.theme.BlushBloom
+import com.stephen.notes.ui.theme.LavenderHaze
+import com.stephen.notes.ui.theme.MintMeadow
+import com.stephen.notes.ui.theme.NotesTheme
+import com.stephen.notes.ui.theme.PeachySunrise
+import com.stephen.notes.ui.theme.SkyBliss
+import com.stephen.notes.ui.theme.SunbeamGlow
 import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
