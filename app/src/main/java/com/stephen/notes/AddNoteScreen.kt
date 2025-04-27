@@ -38,7 +38,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -61,53 +60,50 @@ import com.stephen.notes.ui.theme.poppinsFontFamily
 fun Header(
     onNavigateToHome: () -> Unit,
 ) {
-    // 1. Colors available for the popup
+    //Colors available for the popup
     val availableColors = listOf(
         PeachySunrise, BlushBloom, LavenderHaze,
         SkyBliss, MintMeadow, SunbeamGlow
     )
 
-    // 2. State for popup visibility & selected color
-    var showMenuPopup by remember { mutableStateOf(false) }       // toggle popup :contentReference[oaicite:4]{index=4}
-    var selectedColor by remember { mutableStateOf(availableColors.first()) }
+    //State for popup visibility & selected color
+    var showMenuPopup by remember { mutableStateOf(false) }
 
-    // 5. Title input + menu button
+    var selectedColor by remember {
+        mutableStateOf(
+            availableColors.getOrNull(3)
+                ?: availableColors.first()    // fallback to first if 4th doesn’t exist
+        )
+    }
+//    var selectedColor by remember { mutableStateOf(availableColors.first()) }
+
+    //Title input + menu button
     val titleState = remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
 
-    // 3. Root container filling the whole screen
+    //Root container filling the whole screen
     Box(
         modifier = Modifier
             .fillMaxSize()
             .zIndex(1f),
     ) {
-        // 4. Header UI (fixed height, gradient background)
+        //Header UI (fixed height, gradient background)
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .zIndex(2f),  // keep on top
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(160.dp)
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colorStops = arrayOf(
-                                0.0f to selectedColor,
-                                0.7f to selectedColor,
-                                1.0f to Color.Transparent
-                            )
-                        )
-                    )
+                    .height(140.dp)
+                    .background(selectedColor)
             ) {
-
-
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 30.dp, vertical = 10.dp),
+                        .padding(vertical = 10.dp)
+                        .padding(top = 35.dp, start = 20.dp, end = 30.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -160,9 +156,10 @@ fun Header(
             }
         }
 
-        // 6. Bottom-aligned, full-width menu popup
+        //Bottom-aligned, full-width menu popup
         if (showMenuPopup) {
             Popup(
+                onDismissRequest = { showMenuPopup = false },
                 alignment = Alignment.BottomCenter,
                 properties = PopupProperties(
                     focusable = true,
@@ -297,9 +294,9 @@ fun Header(
             .background(selectedColor)
             .padding(
                 top = 120.dp,
-                start = 30.dp,
-                end = 30.dp,
-                bottom = 30.dp
+                start = 20.dp,
+                end = 20.dp,
+                bottom = 20.dp,
             ),
     ) {
         TextField(
@@ -310,6 +307,7 @@ fun Header(
                     "Type here something...",
                     fontFamily = poppinsFontFamily,
                     fontSize = 16.sp,
+                    lineHeight = 25.sp,
                     color = Black,
                     textAlign = TextAlign.Start
                 )

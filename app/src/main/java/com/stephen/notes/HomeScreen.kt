@@ -37,9 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -73,7 +71,8 @@ fun TopBar(
                     brush = Brush.verticalGradient(
                         colorStops = arrayOf(
                             0.0f to Color.White,                      // Solid white at the top (0%)
-                            0.7f to Color.White,                      // Solid white up to 90% height
+                            0.6f to Color.White,                      // Solid white up to 70% height
+                            0.7f to Color.White.copy(alpha = 0.7f),                      // Solid white up to 90% height
                             1.0f to Color.Transparent                 // Fully transparent at the bottom (100%)
                         )
                     )
@@ -160,8 +159,6 @@ fun NoteCard(
     note: Note,
     onLongPress: () -> Unit
 ) {
-    val haptic = LocalHapticFeedback.current
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -178,7 +175,6 @@ fun NoteCard(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onLongPress = {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         onLongPress()
                     }
                 )
