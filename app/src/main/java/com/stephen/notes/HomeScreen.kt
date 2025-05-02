@@ -71,8 +71,11 @@ fun TopBar(
                     brush = Brush.verticalGradient(
                         colorStops = arrayOf(
                             0.0f to Color.White,                      // Solid white at the top (0%)
-                            0.6f to Color.White,                      // Solid white up to 70% height
-                            0.7f to Color.White.copy(alpha = 0.7f),                      // Solid white up to 90% height
+                            0.5f to Color.White,                      // Solid white
+                            0.6f to Color.White.copy(alpha = 0.9f),                      // Solid white up to 70% height
+                            0.7f to Color.White.copy(alpha = 0.7f),                      // Solid white up to 70% height
+                            0.8f to Color.White.copy(alpha = 0.4f),                      // Solid white up to 30% height
+                            0.9f to Color.White.copy(alpha = 0.2f),                      // Solid white up to 30% height
                             1.0f to Color.Transparent                 // Fully transparent at the bottom (100%)
                         )
                     )
@@ -84,7 +87,7 @@ fun TopBar(
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 30.dp)
+                    .padding(start = 30.dp, end = 20.dp)
                     .padding(top = 0.dp), // Adjust top padding to position content within the Box
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -112,7 +115,7 @@ fun TopBar(
 }
 
 @Composable
-fun NotesGrid(notes: List<Note>) {
+fun NotesGrid(notes: List<Note>/*, navController: NavController*/) {
     var selectedNote by remember { mutableStateOf<Note?>(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -120,7 +123,7 @@ fun NotesGrid(notes: List<Note>) {
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxSize(), // No .padding here
             contentPadding = PaddingValues(
-                top = 150.dp,
+                top = 140.dp,
                 start = 30.dp,
                 end = 30.dp,
                 bottom = 30.dp
@@ -131,6 +134,10 @@ fun NotesGrid(notes: List<Note>) {
             items(notes) { note ->
                 NoteCard(
                     note = note,
+//                    onClick = {
+//                        // Navigate to the NoteScreen, passing the note's id
+//                        navController.navigate("note/${note.id}")
+//                    },
                     onLongPress = {
                         selectedNote = note
                     }
@@ -157,7 +164,8 @@ fun NotesGrid(notes: List<Note>) {
 @Composable
 fun NoteCard(
     note: Note,
-    onLongPress: () -> Unit
+    onLongPress: () -> Unit,
+    //onClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -171,7 +179,7 @@ fun NoteCard(
                 spotColor = Color.Gray
             )
             .background(note.color, RoundedCornerShape(20.dp))
-            .padding(18.dp)
+            .padding(15.dp)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onLongPress = {
@@ -184,7 +192,7 @@ fun NoteCard(
             text = note.title,
             fontFamily = poppinsFontFamily,
             fontWeight = FontWeight.Medium,
-            fontSize = 15.sp,
+            fontSize = 14.5.sp,
             color = Black
         )
         Spacer(modifier = Modifier.height(6.dp))

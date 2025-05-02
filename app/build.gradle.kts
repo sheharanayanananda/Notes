@@ -61,7 +61,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0") // Use the latest version
 
     // Jetpack Navigation
-    val nav_version = "2.8.0"
+    val nav_version = "2.8.9"
     api("androidx.navigation:navigation-fragment-ktx:$nav_version")
     // Jetpack Compose integration
     implementation("androidx.navigation:navigation-compose:$nav_version")
@@ -74,4 +74,6 @@ dependencies {
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
     // JSON serialization library, works with the Kotlin serialization plugin
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+
+    
 }

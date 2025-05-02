@@ -20,7 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -57,7 +57,7 @@ import com.stephen.notes.ui.theme.SunbeamGlow
 import com.stephen.notes.ui.theme.poppinsFontFamily
 
 @Composable
-fun AddNote(
+fun Note(
     onNavigateToHome: () -> Unit,
 ) {
     //Colors available for the popup
@@ -96,14 +96,14 @@ fun AddNote(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(130.dp)
+                    .height(140.dp)
                     .background(selectedColor)
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(vertical = 10.dp)
-                        .padding(top = 27.dp, start = 20.dp, end = 20.dp),
+                        .padding(top = 35.dp, start = 20.dp, end = 30.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -146,10 +146,10 @@ fun AddNote(
 
                     IconButton(onClick = { showMenuPopup = true }) {
                         Icon(
-                            imageVector = Icons.Rounded.MoreVert,
+                            imageVector = Icons.Rounded.Menu,
                             contentDescription = "More Options",
                             tint = Black,
-                            modifier = Modifier.size(40.dp),
+                            modifier = Modifier.size(40.dp)
                         )
                     }
                 }
@@ -163,6 +163,7 @@ fun AddNote(
                 alignment = Alignment.BottomCenter,
                 properties = PopupProperties(
                     focusable = true,
+                    dismissOnClickOutside = true
                 )
             ) {
                 Box(
@@ -260,10 +261,10 @@ fun AddNote(
                                     )
                                 }
                                 Button(
-                                    onClick =
-                                        onNavigateToHome
-//                                        showMenuPopup = false
-                                    ,
+                                    onClick = {
+                                        // TODO: save with selectedColor
+                                        showMenuPopup = false
+                                    },
                                     modifier = Modifier
                                         .height(48.dp)
                                         .weight(2f),
