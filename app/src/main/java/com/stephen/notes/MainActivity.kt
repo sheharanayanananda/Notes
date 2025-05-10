@@ -31,7 +31,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         // Sample list of notes to populate the grid
-        // Sample list of notes to populate the grid with unique titles and descriptions
         val sampleNotes = listOf(
             Note(1,
                 "Grocery List",
